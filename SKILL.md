@@ -10,7 +10,7 @@ metadata:
 
 # token-diet
 
-Non-English prompts cost more tokens than their English equivalent on every major tokenizer, and prompts written for a chat window carry greetings, hedges and repetition that a coding agent does not need. This skill turns such a prompt into compact English with a cheap model, keeps everything that must stay byte-exact, and makes the agent answer in the user's language. It also tells you, with a script, whether the rewrite saved anything before you say it did.
+Non-English prompts usually cost more tokens than the same brief in English, because common tokenizers split non-Latin and accented text into smaller pieces (run `scripts/measure.py` on your own prompt to see the ratio for your model), and prompts written for a chat window carry greetings, hedges and repetition that a coding agent does not need. This skill turns such a prompt into compact English with a cheap model, keeps everything that must stay byte-exact, and makes the agent answer in the user's language. It also tells you, with a script, whether the rewrite saved anything before you say it did.
 
 ## When to use
 

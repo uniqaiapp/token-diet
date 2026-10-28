@@ -27,7 +27,7 @@ If you are unsure whether a word is an identifier, keep it as it is. Keeping a w
 
 ## Append
 
-One final line: `Answer in Russian.` (or the asker's language). It costs three tokens and saves a round-trip when the agent would otherwise answer in English.
+One final line: `Answer in Russian.` (or the asker's language). It costs a handful of tokens and saves a round-trip when the agent would otherwise answer in English.
 
 ## Check
 
