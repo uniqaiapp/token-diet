@@ -1,0 +1,5 @@
+Oi, tudo bem? Então, eu preciso escrever testes para uma função que a gente tem no projeto, mas estou com dificuldade de cobrir todos os casos e queria a sua ajuda. A função se chama parse_duration e fica em src/utils/time.ts. Ela recebe uma string tipo "1h30m", "45s" ou "2d" e devolve o número de segundos. Se a string for inválida, ela deve lançar um Error com a mensagem "invalid duration".
+
+Eu queria testes com Vitest, no arquivo src/utils/time.test.ts, cobrindo pelo menos: os casos normais (horas, minutos, segundos, dias e combinações), string vazia, espaços em branco no começo e no fim (que devem ser ignorados), letras maiúsculas (que também devem funcionar, tipo "1H"), e valores inválidos como "abc", "1x" e "-5m". Não precisa testar números decimais porque a gente não suporta isso mesmo.
+
+Ah, e por favor, usa describe e it em vez de test, porque é o padrão que a gente segue no resto do projeto. Não precisa mudar a implementação da função, só os testes mesmo. Valeu!

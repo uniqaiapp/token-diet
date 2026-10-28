@@ -1,0 +1,11 @@
+{
+  "name": "token-diet",
+  "version": "0.1.0",
+  "description": "Cut LLM token spend for non-English prompts: compact English rewrite via a cheap model with code, paths and identifiers kept verbatim, answer in the user's language, and a measurement script (count_tokens or a labelled estimate).",
+  "author": { "name": "UniqAI", "email": "support@uniqai.app", "url": "https://uniqai.app/?utm_source=github&utm_medium=plugin&utm_campaign=token-diet" },
+  "homepage": "https://github.com/uniqaiapp/token-diet",
+  "repository": "https://github.com/uniqaiapp/token-diet",
+  "license": "MIT",
+  "keywords": ["claude-code", "skill", "tokens", "prompt-compression", "llm-cost", "context-window", "russian"],
+  "skills": ["./"]
+}

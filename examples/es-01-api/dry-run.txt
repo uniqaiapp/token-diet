@@ -1,0 +1,36 @@
+# token-diet dry run (nothing was sent, no key was read)
+provider: openai  model: gpt-5-mini  key: $OPENAI_API_KEY
+source language: es  ->  appended line: Answer in Spanish.
+placeholders: 7
+  ⟦0⟧  path        app/routers/billing.py
+  ⟦1⟧  snake       create_checkout
+  ⟦2⟧  quote       "active"
+  ⟦3⟧  quote       "trialing"
+  ⟦4⟧  quote       "subscription_exists"
+  ⟦5⟧  snake       get_db
+  ⟦6⟧  path        tests/test_billing.py
+--- protected prompt ---
+Hola, necesito que me ayudes con una cosa en el backend. Tenemos un endpoint en FastAPI, concretamente en ⟦0⟧, que se llama ⟦1⟧ y que crea una sesión de pago. El problema es que cuando el usuario ya tiene una suscripción activa, el endpoint igualmente crea otra sesión y acabamos cobrando dos veces, lo cual, como te puedes imaginar, no es nada bueno para nosotros.
+
+Lo que quiero es que añadas una comprobación antes de crear la sesión: si el usuario ya tiene una suscripción con status ⟦2⟧ o ⟦3⟧ en la tabla subscriptions, el endpoint debe devolver un error 409 con el mensaje ⟦4⟧ en el campo detail, y no debe llamar a la API de pagos para nada.
+
+Por favor, usa la sesión de base de datos que ya se inyecta con Depends(⟦5⟧), no abras una conexión nueva. También me gustaría que añadieras un test en ⟦6⟧ que cubra este caso, siguiendo el estilo de los tests que ya hay ahí. No cambies la estructura de la respuesta en el caso correcto, porque el frontend depende de ella. Muchas gracias.
+--- request: POST https://api.openai.com/v1/chat/completions ---
+{
+  "body": {
+    "messages": [
+      {
+        "content": "You rewrite prompts for a coding agent. Rewrite the user's text as compact English.\nRules:\n- Keep every placeholder like ⟦3⟧ exactly as written, each one exactly once, in a sensible position. Never translate, number, merge or drop a placeholder.\n- Keep all numbers, versions, limits, dates and proper nouns.\n- Keep every requirement, constraint and acceptance criterion; put them as a short list when there are several.\n- Drop greetings, apologies, hedges, repetition and commentary about the agent.\n- Use imperative mood and short sentences. No markdown headings.\n- Do not answer the task, do not add advice, do not add information that is not in the text.\n- Output only the rewritten prompt.",
+        "role": "system"
+      },
+      {
+        "content": "Hola, necesito que me ayudes con una cosa en el backend. Tenemos un endpoint en FastAPI, concretamente en ⟦0⟧, que se llama ⟦1⟧ y que crea una sesión de pago. El problema es que cuando el usuario ya tiene una suscripción activa, el endpoint igualmente crea otra sesión y acabamos cobrando dos veces, lo cual, como te puedes imaginar, no es nada bueno para nosotros.\n\nLo que quiero es que añadas una comprobación antes de crear la sesión: si el usuario ya tiene una suscripción con status ⟦2⟧ o ⟦3⟧ en la tabla subscriptions, el endpoint debe devolver un error 409 con el mensaje ⟦4⟧ en el campo detail, y no debe llamar a la API de pagos para nada.\n\nPor favor, usa la sesión de base de datos que ya se inyecta con Depends(⟦5⟧), no abras una conexión nueva. También me gustaría que añadieras un test en ⟦6⟧ que cubra este caso, siguiendo el estilo de los tests que ya hay ahí. No cambies la estructura de la respuesta en el caso correcto, porque el frontend depende de ella. Muchas gracias.\n",
+        "role": "user"
+      }
+    ],
+    "model": "gpt-5-mini"
+  },
+  "headers": {
+    "Authorization": "Bearer $OPENAI_API_KEY"
+  }
+}

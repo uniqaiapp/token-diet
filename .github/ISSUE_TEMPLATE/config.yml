@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and ideas
+    url: https://github.com/uniqaiapp/token-diet/discussions
+    about: Ask how to use the skill or share a before/after that worked
+  - name: Security or private matters
+    url: mailto:support@uniqai.app
+    about: Email UniqAI directly; see SECURITY.md

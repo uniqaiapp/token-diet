@@ -1,0 +1,10 @@
+PostgreSQL. Tables: generations (id, user_id, model, cost_gems, created_at), users (id, plan, country).
+
+Write one query (CTEs preferred) that, for the last 30 days and models whose name starts with 'kling', returns per plan: total cost_gems and its share of the overall total in percent. My attempt `SELECT plan, SUM(cost_gems) FROM generations JOIN users ...` did not get the percentages right.
+
+Constraints:
+- Single query, no second round trip.
+- No division by zero when the period has no rows.
+- Indexes cannot change; generations has about 40 million rows, so the created_at predicate must be able to use idx_generations_created_at.
+
+Answer in Russian.

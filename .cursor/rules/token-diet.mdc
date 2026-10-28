@@ -1,0 +1,7 @@
+---
+description: Cut LLM token spend for non-English prompts. Rewrites a prompt into compact English with a cheap model, keeps code, paths and identifiers verbatim, answers in the user's language, and measures before/after. Use when the user asks to reduce token costs, compress a prompt, or writes "сократи промпт" / "экономия токенов".
+globs:
+alwaysApply: false
+---
+
+@SKILL.md

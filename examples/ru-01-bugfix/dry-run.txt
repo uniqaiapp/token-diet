@@ -1,0 +1,43 @@
+# token-diet dry run (nothing was sent, no key was read)
+provider: openai  model: gpt-5-mini  key: $OPENAI_API_KEY
+source language: ru  ->  appended line: Answer in Russian.
+placeholders: 8
+  ⟦0⟧  file        Next.js
+  ⟦1⟧  path        src/app/video/page.tsx
+  ⟦2⟧  quote       "Сгенерировать"
+  ⟦3⟧  camel       useGenerate
+  ⟦4⟧  path        src/hooks/useGenerate.ts
+  ⟦5⟧  fence       ```ts ... (6 lines)
+  ⟦6⟧  path        tests/generate.test.ts
+  ⟦7⟧  path        src/app/api/generate/route.ts
+--- protected prompt ---
+Привет! Слушай, у меня тут проблема с ⟦0⟧ приложением, и я уже довольно долго пытаюсь её решить, но что-то никак не получается, поэтому решил обратиться к тебе. В общем, суть в том, что когда пользователь открывает страницу ⟦1⟧ и нажимает на кнопку ⟦2⟧, то иногда (не всегда, а примерно в одном случае из пяти, как мне кажется) запрос к API уходит дважды, и из-за этого у нас списывается двойная стоимость генерации. Это, конечно, очень плохо, потому что пользователи потом пишут в поддержку.
+
+Я думаю, что проблема где-то в хуке ⟦3⟧, который лежит в ⟦4⟧, потому что там есть вот такой код:
+
+⟦5⟧
+
+Как ты видишь, тут нет никакой защиты от повторного нажатия, но я не уверен, что дело только в этом, потому что кнопка вроде бы дизейблится через проп disabled={loading}. Возможно, дело ещё в React Strict Mode или в том, что компонент перемонтируется.
+
+Мне бы хотелось, чтобы ты, пожалуйста, внимательно посмотрел на это, нашёл настоящую причину, а не просто предположил, и предложил исправление. Очень важно, чтобы исправление не ломало существующие тесты в ⟦6⟧, и чтобы ты не добавлял новых зависимостей, потому что у нас и так бандл большой. Если нужно будет что-то поменять в API-роуте ⟦7⟧, например, добавить идемпотентность по ключу, то это тоже нормально, только опиши, как это будет работать.
+
+Заранее большое спасибо!
+--- request: POST https://api.openai.com/v1/chat/completions ---
+{
+  "body": {
+    "messages": [
+      {
+        "content": "You rewrite prompts for a coding agent. Rewrite the user's text as compact English.\nRules:\n- Keep every placeholder like ⟦3⟧ exactly as written, each one exactly once, in a sensible position. Never translate, number, merge or drop a placeholder.\n- Keep all numbers, versions, limits, dates and proper nouns.\n- Keep every requirement, constraint and acceptance criterion; put them as a short list when there are several.\n- Drop greetings, apologies, hedges, repetition and commentary about the agent.\n- Use imperative mood and short sentences. No markdown headings.\n- Do not answer the task, do not add advice, do not add information that is not in the text.\n- Output only the rewritten prompt.",
+        "role": "system"
+      },
+      {
+        "content": "Привет! Слушай, у меня тут проблема с ⟦0⟧ приложением, и я уже довольно долго пытаюсь её решить, но что-то никак не получается, поэтому решил обратиться к тебе. В общем, суть в том, что когда пользователь открывает страницу ⟦1⟧ и нажимает на кнопку ⟦2⟧, то иногда (не всегда, а примерно в одном случае из пяти, как мне кажется) запрос к API уходит дважды, и из-за этого у нас списывается двойная стоимость генерации. Это, конечно, очень плохо, потому что пользователи потом пишут в поддержку.\n\nЯ думаю, что проблема где-то в хуке ⟦3⟧, который лежит в ⟦4⟧, потому что там есть вот такой код:\n\n⟦5⟧\n\nКак ты видишь, тут нет никакой защиты от повторного нажатия, но я не уверен, что дело только в этом, потому что кнопка вроде бы дизейблится через проп disabled={loading}. Возможно, дело ещё в React Strict Mode или в том, что компонент перемонтируется.\n\nМне бы хотелось, чтобы ты, пожалуйста, внимательно посмотрел на это, нашёл настоящую причину, а не просто предположил, и предложил исправление. Очень важно, чтобы исправление не ломало существующие тесты в ⟦6⟧, и чтобы ты не добавлял новых зависимостей, потому что у нас и так бандл большой. Если нужно будет что-то поменять в API-роуте ⟦7⟧, например, добавить идемпотентность по ключу, то это тоже нормально, только опиши, как это будет работать.\n\nЗаранее большое спасибо!\n",
+        "role": "user"
+      }
+    ],
+    "model": "gpt-5-mini"
+  },
+  "headers": {
+    "Authorization": "Bearer $OPENAI_API_KEY"
+  }
+}

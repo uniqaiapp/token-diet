@@ -1,0 +1,5 @@
+Hola, necesito que me ayudes con una cosa en el backend. Tenemos un endpoint en FastAPI, concretamente en app/routers/billing.py, que se llama create_checkout y que crea una sesión de pago. El problema es que cuando el usuario ya tiene una suscripción activa, el endpoint igualmente crea otra sesión y acabamos cobrando dos veces, lo cual, como te puedes imaginar, no es nada bueno para nosotros.
+
+Lo que quiero es que añadas una comprobación antes de crear la sesión: si el usuario ya tiene una suscripción con status "active" o "trialing" en la tabla subscriptions, el endpoint debe devolver un error 409 con el mensaje "subscription_exists" en el campo detail, y no debe llamar a la API de pagos para nada.
+
+Por favor, usa la sesión de base de datos que ya se inyecta con Depends(get_db), no abras una conexión nueva. También me gustaría que añadieras un test en tests/test_billing.py que cubra este caso, siguiendo el estilo de los tests que ya hay ahí. No cambies la estructura de la respuesta en el caso correcto, porque el frontend depende de ella. Muchas gracias.

@@ -1,0 +1,12 @@
+Refactor scripts/export_users.py: one 300-line main() mixes reading config.yaml, DB access, CSV export and email. Split into load_config, fetch_users, write_csv, send_report. Behaviour must not change (a nightly cron depends on it).
+
+Constraints:
+- --dry-run must still work and send nothing.
+- SMTP_PASSWORD is read from the environment and must never be logged.
+- CSV format stays identical, including the header «user_id;email;created_at» and the «;» separator.
+- Python 3.9: no match statements.
+- Add type hints and short docstrings, sparingly. No tests.
+
+Output the complete final file.
+
+Answer in Russian.

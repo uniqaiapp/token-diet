@@ -1,0 +1,34 @@
+# token-diet dry run (nothing was sent, no key was read)
+provider: openai  model: gpt-5-mini  key: $OPENAI_API_KEY
+source language: ru  ->  appended line: Answer in Russian.
+placeholders: 7
+  ⟦0⟧  snake       user_id
+  ⟦1⟧  snake       cost_gems
+  ⟦2⟧  snake       created_at
+  ⟦3⟧  quote       'kling'
+  ⟦4⟧  inline-code `SELECT plan, SUM(cost_gems) FROM generations JOIN users ...`
+  ⟦5⟧  snake       created_at
+  ⟦6⟧  snake       idx_generations_created_at
+--- protected prompt ---
+Помоги, пожалуйста, с запросом в PostgreSQL. У нас есть таблица generations (колонки: id, ⟦0⟧, model, ⟦1⟧, ⟦2⟧) и таблица users (id, plan, country). Мне нужно посчитать, сколько гемов в сумме потратили пользователи на каждом тарифе (plan) за последние 30 дней, но только по тем моделям, у которых название начинается с ⟦3⟧, и отдельно вывести, какой процент от общей суммы это составляет. Я пробовал что-то вроде ⟦4⟧, но запутался с процентами и с тем, как не делать два запроса.
+
+Хотелось бы один запрос, желательно с CTE, чтобы было читаемо, и чтобы он не падал, если за период вообще нет строк (деление на ноль). Индексы менять нельзя, таблица generations большая, примерно 40 миллионов строк, так что обрати внимание на то, чтобы условие по ⟦5⟧ могло использовать существующий индекс ⟦6⟧.
+--- request: POST https://api.openai.com/v1/chat/completions ---
+{
+  "body": {
+    "messages": [
+      {
+        "content": "You rewrite prompts for a coding agent. Rewrite the user's text as compact English.\nRules:\n- Keep every placeholder like ⟦3⟧ exactly as written, each one exactly once, in a sensible position. Never translate, number, merge or drop a placeholder.\n- Keep all numbers, versions, limits, dates and proper nouns.\n- Keep every requirement, constraint and acceptance criterion; put them as a short list when there are several.\n- Drop greetings, apologies, hedges, repetition and commentary about the agent.\n- Use imperative mood and short sentences. No markdown headings.\n- Do not answer the task, do not add advice, do not add information that is not in the text.\n- Output only the rewritten prompt.",
+        "role": "system"
+      },
+      {
+        "content": "Помоги, пожалуйста, с запросом в PostgreSQL. У нас есть таблица generations (колонки: id, ⟦0⟧, model, ⟦1⟧, ⟦2⟧) и таблица users (id, plan, country). Мне нужно посчитать, сколько гемов в сумме потратили пользователи на каждом тарифе (plan) за последние 30 дней, но только по тем моделям, у которых название начинается с ⟦3⟧, и отдельно вывести, какой процент от общей суммы это составляет. Я пробовал что-то вроде ⟦4⟧, но запутался с процентами и с тем, как не делать два запроса.\n\nХотелось бы один запрос, желательно с CTE, чтобы было читаемо, и чтобы он не падал, если за период вообще нет строк (деление на ноль). Индексы менять нельзя, таблица generations большая, примерно 40 миллионов строк, так что обрати внимание на то, чтобы условие по ⟦5⟧ могло использовать существующий индекс ⟦6⟧.\n",
+        "role": "user"
+      }
+    ],
+    "model": "gpt-5-mini"
+  },
+  "headers": {
+    "Authorization": "Bearer $OPENAI_API_KEY"
+  }
+}

@@ -1,0 +1,14 @@
+Rewrite README.md for imgtool, a Go CLI in cmd/imgtool with subcommands resize, convert and info. The current README describes an old version (resize only) and lists no flags. Write it in English; the tool will be published on GitHub.
+
+Structure:
+- short description
+- installation (go install ./cmd/imgtool)
+- one section per subcommand: an example invocation and a table of flags
+
+Take the flags from cmd/imgtool/main.go (defined with flag.String and flag.Int).
+
+Constraints:
+- Do not invent features that do not exist.
+- Keep the "License" section at the end exactly as it is.
+
+Answer in German.

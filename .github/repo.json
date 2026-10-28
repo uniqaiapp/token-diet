@@ -1,0 +1,24 @@
+{
+  "_note": "Repository metadata for the human release step (CONVENTIONS.md section 11). Values come from the org-level meta.json.",
+  "name": "token-diet",
+  "description": "Token diet for LLM apps and coding agents: measure where input tokens go (system prompt, history, tool output, RAG), then trim with stable prefixes, history windows and compact tool results. Claude Code skill + AGENTS.md/Cursor rules + a stdlib Python token-budget report. Numbers come from included sample runs. By UniqAI.",
+  "homepage": "https://uniqai.app/chat?utm_source=github&utm_medium=readme&utm_campaign=token-diet",
+  "topics": [
+    "llm",
+    "token-optimization",
+    "prompt-compression",
+    "llm-cost",
+    "context-window",
+    "prompt-caching",
+    "claude-code",
+    "claude-skills",
+    "agent-skills",
+    "cursor-rules",
+    "agents-md",
+    "prompt-engineering",
+    "uniqai"
+  ],
+  "social_preview": "assets/social-preview.png",
+  "features": { "issues": true, "discussions": true, "wiki": false, "projects": false },
+  "default_branch": "main"
+}

@@ -1,0 +1,5 @@
+Hallo, ich bräuchte bitte Hilfe bei der Dokumentation unserer CLI. Wir haben ein kleines Tool namens imgtool, das in Go geschrieben ist und im Verzeichnis cmd/imgtool liegt. Es hat momentan drei Unterbefehle: resize, convert und info. Die README.md ist leider ziemlich veraltet, sie beschreibt noch die alte Version, in der es nur resize gab, und außerdem fehlen die ganzen Flags.
+
+Ich hätte gerne, dass du die README.md komplett neu schreibst, und zwar auf Englisch, weil wir das Tool demnächst auf GitHub veröffentlichen wollen. Die Struktur sollte ungefähr so aussehen: kurze Beschreibung, Installation (go install ./cmd/imgtool), dann für jeden Unterbefehl ein Abschnitt mit einem Beispielaufruf und einer Tabelle der Flags. Die Flags kannst du direkt aus dem Code übernehmen, sie sind alle in cmd/imgtool/main.go mit flag.String bzw. flag.Int definiert.
+
+Bitte erfinde keine Features, die es nicht gibt, und behalte den Abschnitt "License" am Ende genau so bei, wie er jetzt ist. Danke dir!

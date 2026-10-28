@@ -1,0 +1,38 @@
+# token-diet dry run (nothing was sent, no key was read)
+provider: openai  model: gpt-5-mini  key: $OPENAI_API_KEY
+source language: de  ->  appended line: Answer in German.
+placeholders: 9
+  ⟦0⟧  path        cmd/imgtool
+  ⟦1⟧  file        README.md
+  ⟦2⟧  file        README.md
+  ⟦3⟧  camel       GitHub
+  ⟦4⟧  path        ./cmd/imgtool
+  ⟦5⟧  path        cmd/imgtool/main.go
+  ⟦6⟧  dotted      flag.String
+  ⟦7⟧  dotted      flag.Int
+  ⟦8⟧  quote       "License"
+--- protected prompt ---
+Hallo, ich bräuchte bitte Hilfe bei der Dokumentation unserer CLI. Wir haben ein kleines Tool namens imgtool, das in Go geschrieben ist und im Verzeichnis ⟦0⟧ liegt. Es hat momentan drei Unterbefehle: resize, convert und info. Die ⟦1⟧ ist leider ziemlich veraltet, sie beschreibt noch die alte Version, in der es nur resize gab, und außerdem fehlen die ganzen Flags.
+
+Ich hätte gerne, dass du die ⟦2⟧ komplett neu schreibst, und zwar auf Englisch, weil wir das Tool demnächst auf ⟦3⟧ veröffentlichen wollen. Die Struktur sollte ungefähr so aussehen: kurze Beschreibung, Installation (go install ⟦4⟧), dann für jeden Unterbefehl ein Abschnitt mit einem Beispielaufruf und einer Tabelle der Flags. Die Flags kannst du direkt aus dem Code übernehmen, sie sind alle in ⟦5⟧ mit ⟦6⟧ bzw. ⟦7⟧ definiert.
+
+Bitte erfinde keine Features, die es nicht gibt, und behalte den Abschnitt ⟦8⟧ am Ende genau so bei, wie er jetzt ist. Danke dir!
+--- request: POST https://api.openai.com/v1/chat/completions ---
+{
+  "body": {
+    "messages": [
+      {
+        "content": "You rewrite prompts for a coding agent. Rewrite the user's text as compact English.\nRules:\n- Keep every placeholder like ⟦3⟧ exactly as written, each one exactly once, in a sensible position. Never translate, number, merge or drop a placeholder.\n- Keep all numbers, versions, limits, dates and proper nouns.\n- Keep every requirement, constraint and acceptance criterion; put them as a short list when there are several.\n- Drop greetings, apologies, hedges, repetition and commentary about the agent.\n- Use imperative mood and short sentences. No markdown headings.\n- Do not answer the task, do not add advice, do not add information that is not in the text.\n- Output only the rewritten prompt.",
+        "role": "system"
+      },
+      {
+        "content": "Hallo, ich bräuchte bitte Hilfe bei der Dokumentation unserer CLI. Wir haben ein kleines Tool namens imgtool, das in Go geschrieben ist und im Verzeichnis ⟦0⟧ liegt. Es hat momentan drei Unterbefehle: resize, convert und info. Die ⟦1⟧ ist leider ziemlich veraltet, sie beschreibt noch die alte Version, in der es nur resize gab, und außerdem fehlen die ganzen Flags.\n\nIch hätte gerne, dass du die ⟦2⟧ komplett neu schreibst, und zwar auf Englisch, weil wir das Tool demnächst auf ⟦3⟧ veröffentlichen wollen. Die Struktur sollte ungefähr so aussehen: kurze Beschreibung, Installation (go install ⟦4⟧), dann für jeden Unterbefehl ein Abschnitt mit einem Beispielaufruf und einer Tabelle der Flags. Die Flags kannst du direkt aus dem Code übernehmen, sie sind alle in ⟦5⟧ mit ⟦6⟧ bzw. ⟦7⟧ definiert.\n\nBitte erfinde keine Features, die es nicht gibt, und behalte den Abschnitt ⟦8⟧ am Ende genau so bei, wie er jetzt ist. Danke dir!\n",
+        "role": "user"
+      }
+    ],
+    "model": "gpt-5-mini"
+  },
+  "headers": {
+    "Authorization": "Bearer $OPENAI_API_KEY"
+  }
+}

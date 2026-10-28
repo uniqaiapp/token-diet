@@ -1,0 +1,13 @@
+Write Vitest tests for parse_duration in src/utils/time.ts, in src/utils/time.test.ts. The function takes strings like "1h30m", "45s" or "2d" and returns seconds; invalid input throws an Error with message "invalid duration".
+
+Cover at least:
+- hours, minutes, seconds, days and combinations
+- empty string
+- leading/trailing whitespace (ignored)
+- uppercase units, e.g. "1H" (accepted)
+- invalid values: "abc", "1x", "-5m"
+Decimals are not supported and need no tests.
+
+Use describe and it (not test), as in the rest of the project. Do not change the implementation.
+
+Answer in Portuguese.

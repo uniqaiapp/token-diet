@@ -1,0 +1,40 @@
+# token-diet dry run (nothing was sent, no key was read)
+provider: openai  model: gpt-5-mini  key: $OPENAI_API_KEY
+source language: pt  ->  appended line: Answer in Portuguese.
+placeholders: 11
+  ⟦0⟧  snake       parse_duration
+  ⟦1⟧  path        src/utils/time.ts
+  ⟦2⟧  quote       "1h30m"
+  ⟦3⟧  quote       "45s"
+  ⟦4⟧  quote       "2d"
+  ⟦5⟧  quote       "invalid duration"
+  ⟦6⟧  path        src/utils/time.test.ts
+  ⟦7⟧  quote       "1H"
+  ⟦8⟧  quote       "abc"
+  ⟦9⟧  quote       "1x"
+  ⟦10⟧  quote       "-5m"
+--- protected prompt ---
+Oi, tudo bem? Então, eu preciso escrever testes para uma função que a gente tem no projeto, mas estou com dificuldade de cobrir todos os casos e queria a sua ajuda. A função se chama ⟦0⟧ e fica em ⟦1⟧. Ela recebe uma string tipo ⟦2⟧, ⟦3⟧ ou ⟦4⟧ e devolve o número de segundos. Se a string for inválida, ela deve lançar um Error com a mensagem ⟦5⟧.
+
+Eu queria testes com Vitest, no arquivo ⟦6⟧, cobrindo pelo menos: os casos normais (horas, minutos, segundos, dias e combinações), string vazia, espaços em branco no começo e no fim (que devem ser ignorados), letras maiúsculas (que também devem funcionar, tipo ⟦7⟧), e valores inválidos como ⟦8⟧, ⟦9⟧ e ⟦10⟧. Não precisa testar números decimais porque a gente não suporta isso mesmo.
+
+Ah, e por favor, usa describe e it em vez de test, porque é o padrão que a gente segue no resto do projeto. Não precisa mudar a implementação da função, só os testes mesmo. Valeu!
+--- request: POST https://api.openai.com/v1/chat/completions ---
+{
+  "body": {
+    "messages": [
+      {
+        "content": "You rewrite prompts for a coding agent. Rewrite the user's text as compact English.\nRules:\n- Keep every placeholder like ⟦3⟧ exactly as written, each one exactly once, in a sensible position. Never translate, number, merge or drop a placeholder.\n- Keep all numbers, versions, limits, dates and proper nouns.\n- Keep every requirement, constraint and acceptance criterion; put them as a short list when there are several.\n- Drop greetings, apologies, hedges, repetition and commentary about the agent.\n- Use imperative mood and short sentences. No markdown headings.\n- Do not answer the task, do not add advice, do not add information that is not in the text.\n- Output only the rewritten prompt.",
+        "role": "system"
+      },
+      {
+        "content": "Oi, tudo bem? Então, eu preciso escrever testes para uma função que a gente tem no projeto, mas estou com dificuldade de cobrir todos os casos e queria a sua ajuda. A função se chama ⟦0⟧ e fica em ⟦1⟧. Ela recebe uma string tipo ⟦2⟧, ⟦3⟧ ou ⟦4⟧ e devolve o número de segundos. Se a string for inválida, ela deve lançar um Error com a mensagem ⟦5⟧.\n\nEu queria testes com Vitest, no arquivo ⟦6⟧, cobrindo pelo menos: os casos normais (horas, minutos, segundos, dias e combinações), string vazia, espaços em branco no começo e no fim (que devem ser ignorados), letras maiúsculas (que também devem funcionar, tipo ⟦7⟧), e valores inválidos como ⟦8⟧, ⟦9⟧ e ⟦10⟧. Não precisa testar números decimais porque a gente não suporta isso mesmo.\n\nAh, e por favor, usa describe e it em vez de test, porque é o padrão que a gente segue no resto do projeto. Não precisa mudar a implementação da função, só os testes mesmo. Valeu!\n",
+        "role": "user"
+      }
+    ],
+    "model": "gpt-5-mini"
+  },
+  "headers": {
+    "Authorization": "Bearer $OPENAI_API_KEY"
+  }
+}

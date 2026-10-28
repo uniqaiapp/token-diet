@@ -1,0 +1,44 @@
+# token-diet dry run (nothing was sent, no key was read)
+provider: openai  model: gpt-5-mini  key: $OPENAI_API_KEY
+source language: ru  ->  appended line: Answer in Russian.
+placeholders: 11
+  ⟦0⟧  path        scripts/export_users.py
+  ⟦1⟧  call        main()
+  ⟦2⟧  file        config.yaml
+  ⟦3⟧  snake       load_config
+  ⟦4⟧  snake       fetch_users
+  ⟦5⟧  snake       write_csv
+  ⟦6⟧  snake       send_report
+  ⟦7⟧  flag        --dry-run
+  ⟦8⟧  snake       SMTP_PASSWORD
+  ⟦9⟧  quote       «user_id;email;created_at»
+  ⟦10⟧  quote       «;»
+--- protected prompt ---
+Нужно отрефакторить скрипт ⟦0⟧, который сейчас выглядит, честно говоря, ужасно: там одна огромная функция ⟦1⟧ на триста строк, в которой всё вперемешку — и чтение конфига из файла ⟦2⟧, и подключение к базе, и выгрузка в CSV, и отправка письма. Я бы хотел, чтобы ты разбил это на отдельные функции (примерно так: ⟦3⟧, ⟦4⟧, ⟦5⟧, ⟦6⟧), но при этом очень важно, чтобы поведение скрипта вообще никак не изменилось, потому что на него завязан ночной крон, и если он сломается, утром мне будут звонить.
+
+Пара важных моментов, о которых нужно помнить:
+- флаг ⟦7⟧ должен по-прежнему работать и ничего не отправлять;
+- переменная окружения ⟦8⟧ читается из окружения, её нельзя никуда логировать;
+- формат CSV должен остаться точно таким же, включая заголовок ⟦9⟧ и разделитель ⟦10⟧;
+- Python у нас 3.9, поэтому никаких match-выражений, пожалуйста.
+
+Ещё было бы здорово, если бы ты добавил типизацию (type hints) и короткие докстринги, но без фанатизма. Тесты писать не нужно, только сам рефакторинг. Выведи, пожалуйста, итоговый файл целиком.
+--- request: POST https://api.openai.com/v1/chat/completions ---
+{
+  "body": {
+    "messages": [
+      {
+        "content": "You rewrite prompts for a coding agent. Rewrite the user's text as compact English.\nRules:\n- Keep every placeholder like ⟦3⟧ exactly as written, each one exactly once, in a sensible position. Never translate, number, merge or drop a placeholder.\n- Keep all numbers, versions, limits, dates and proper nouns.\n- Keep every requirement, constraint and acceptance criterion; put them as a short list when there are several.\n- Drop greetings, apologies, hedges, repetition and commentary about the agent.\n- Use imperative mood and short sentences. No markdown headings.\n- Do not answer the task, do not add advice, do not add information that is not in the text.\n- Output only the rewritten prompt.",
+        "role": "system"
+      },
+      {
+        "content": "Нужно отрефакторить скрипт ⟦0⟧, который сейчас выглядит, честно говоря, ужасно: там одна огромная функция ⟦1⟧ на триста строк, в которой всё вперемешку — и чтение конфига из файла ⟦2⟧, и подключение к базе, и выгрузка в CSV, и отправка письма. Я бы хотел, чтобы ты разбил это на отдельные функции (примерно так: ⟦3⟧, ⟦4⟧, ⟦5⟧, ⟦6⟧), но при этом очень важно, чтобы поведение скрипта вообще никак не изменилось, потому что на него завязан ночной крон, и если он сломается, утром мне будут звонить.\n\nПара важных моментов, о которых нужно помнить:\n- флаг ⟦7⟧ должен по-прежнему работать и ничего не отправлять;\n- переменная окружения ⟦8⟧ читается из окружения, её нельзя никуда логировать;\n- формат CSV должен остаться точно таким же, включая заголовок ⟦9⟧ и разделитель ⟦10⟧;\n- Python у нас 3.9, поэтому никаких match-выражений, пожалуйста.\n\nЕщё было бы здорово, если бы ты добавил типизацию (type hints) и короткие докстринги, но без фанатизма. Тесты писать не нужно, только сам рефакторинг. Выведи, пожалуйста, итоговый файл целиком.\n",
+        "role": "user"
+      }
+    ],
+    "model": "gpt-5-mini"
+  },
+  "headers": {
+    "Authorization": "Bearer $OPENAI_API_KEY"
+  }
+}

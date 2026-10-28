@@ -1,0 +1,15 @@
+token-diet breakdown: transcript.sample.json
+method: ESTIMATE (character-based, not a tokenizer; rates in scripts/estimate.py)
+        set ANTHROPIC_API_KEY for an exact count via count_tokens
+
+source                      tokens(est)   share
+tool output                         553   58.9%
+system prompt                       173   18.4%
+tools / schemas                     105   11.2%
+history                              77    8.2%
+current user turn                    31    3.3%
+retrieved context (rag)               0    0.0%
+total                               939
+
+levers (ordered by share; thresholds in scripts/measure.py):
+  - tool output dominates: truncate or summarise tool results before they enter the context (keep the first/last lines, counts, and errors)

@@ -1,0 +1,21 @@
+Next.js app: clicking "Сгенерировать" on src/app/video/page.tsx sometimes (roughly 1 in 5) sends the POST to the API twice, so the user is charged twice.
+
+Suspect src/hooks/useGenerate.ts:
+
+```ts
+const onClick = async () => {
+  setLoading(true);
+  await fetch("/api/generate", { method: "POST", body: JSON.stringify(payload) });
+  setLoading(false);
+};
+```
+
+The button is disabled via disabled={loading}; React Strict Mode or a remount may also be involved.
+
+Tasks:
+- Find the real root cause, not a guess.
+- Propose a fix that keeps tests/generate.test.ts passing.
+- No new dependencies.
+- Changing src/app/api/generate/route.ts (e.g. an idempotency key) is fine; explain how it works.
+
+Answer in Russian.

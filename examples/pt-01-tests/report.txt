@@ -1,0 +1,8 @@
+token-diet measure
+method: ESTIMATE (character-based, not a tokenizer; rates in scripts/estimate.py)
+        set ANTHROPIC_API_KEY for an exact count via count_tokens
+
+file               chars  tokens(est)  writing systems
+before.txt           985          246  latin 100%
+after.txt            591          148  latin 100%
+delta               -394          -98  (-39.8% of an estimate)

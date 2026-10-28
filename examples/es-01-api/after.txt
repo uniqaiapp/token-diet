@@ -1,0 +1,10 @@
+FastAPI endpoint create_checkout in app/routers/billing.py creates a checkout session even when the user already has an active subscription, so we charge twice.
+
+Add a check before creating the session: if the user has a row in subscriptions with status "active" or "trialing", return HTTP 409 with detail "subscription_exists" and do not call the payment API.
+
+Constraints:
+- Use the DB session injected with Depends(get_db); do not open a new connection.
+- Add a test for this case in tests/test_billing.py, matching the existing test style.
+- Do not change the success response shape; the frontend depends on it.
+
+Answer in Spanish.

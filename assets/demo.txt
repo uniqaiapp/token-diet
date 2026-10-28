@@ -1,0 +1,16 @@
+$ python3 scripts/diet.py examples/ru-01-bugfix/before.txt --dry-run | head -6
+> # token-diet dry run (nothing was sent, no key was read)
+> provider: {b:openai}  model: {b:gpt-5-mini}  key: $OPENAI_API_KEY
+> source language: {y:ru}  ->  appended line: {l:Answer in Russian.}
+> placeholders: {y:8}
+>   ⟦0⟧  file        Next.js
+>   ⟦1⟧  path        src/app/video/page.tsx
+@wait 700
+$ python3 scripts/measure.py examples/ru-01-bugfix/{before,after}.txt
+> token-diet measure
+# method: ESTIMATE (character-based, not a tokenizer; rates in scripts/estimate.py)
+#         set ANTHROPIC_API_KEY for an exact count via count_tokens
+> file               chars  tokens(est)  writing systems
+> before.txt          1596          575  cyrillic 63%, latin 27%, code 10%
+> after.txt            707          188  latin 75%, code 23%, cyrillic 2%
+! delta               -889         -387  (-67.3% of an estimate)
