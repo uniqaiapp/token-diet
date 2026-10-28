@@ -18,9 +18,9 @@
 
 [Quickstart](#quickstart) · [How it works](#how-it-works) · [Examples](#examples) · [Install](#install) · [FAQ](#faq)
 
-[Русская версия](README.ru.md)
-
 </div>
+
+English · [Русский](README.ru.md) · [简体中文](README.zh-CN.md) · [Español](README.es.md) · [Português (BR)](README.pt-BR.md) · [日本語](README.ja.md) · [한국어](README.ko.md)
 
 Reduce LLM token costs in Claude Code, Cursor, Codex and your own apps by measuring first. Prompts written in Russian, Spanish, Portuguese or German cost more tokens than the same brief in English, and prompts written for a chat window carry greetings, hedges and repetition an agent does not need. `token-diet` sends such a prompt through a cheap model of your choice, brings back compact English with every code block, path, identifier and quoted string untouched, tells the agent to answer in your language, and then counts the tokens before and after with Anthropic's `count_tokens` endpoint (or a clearly labelled estimate when you have no key). For whole agent sessions it breaks the input down by source, so you see whether the system prompt, the history, tool output or retrieved context is the thing to trim.
 

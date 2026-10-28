@@ -85,7 +85,7 @@ class TestAdapters(unittest.TestCase):
         self.assertIn("SKILL.md", read(os.path.join("codex", "INSTRUCTIONS.md")))
 
     def test_required_files(self):
-        for rel in ("README.md", "README.ru.md", "LICENSE", "CONTRIBUTING.md", "CHANGELOG.md", ".gitignore",
+        for rel in READMES + ("LICENSE", "CONTRIBUTING.md", "CHANGELOG.md", ".gitignore",
                     ".gitattributes", ".editorconfig", os.path.join(".github", "workflows", "ci.yml"),
                     os.path.join(".github", "repo.json"), os.path.join("assets", "banner.svg"),
                     os.path.join("assets", "banner-light.svg"), os.path.join("assets", "demo.svg"),
@@ -99,6 +99,9 @@ class TestAdapters(unittest.TestCase):
         self.assertTrue(meta["description"])
         self.assertLessEqual(len(meta["topics"]), 20)
         self.assertIn("utm_campaign=" + REPO, meta["homepage"])
+
+
+READMES = ("README.md", "README.ru.md", "README.zh-CN.md", "README.es.md", "README.pt-BR.md", "README.ja.md", "README.ko.md")
 
 
 class TestHygiene(unittest.TestCase):
@@ -126,12 +129,12 @@ class TestHygiene(unittest.TestCase):
                     self.assertIn("UniqAI", line, rel)
 
     def test_utm_on_every_uniqai_link(self):
-        for rel in ("README.md", "README.ru.md", "SKILL.md"):
+        for rel in READMES + ("SKILL.md",):
             for url in re.findall(r"https://uniqai\.app[^\s)\"'>]*", read(rel)):
                 self.assertIn("utm_campaign=" + REPO, url, "%s: %s" % (rel, url))
 
     def test_one_made_by_footer(self):
-        for rel in ("README.md", "README.ru.md"):
+        for rel in READMES:
             self.assertEqual(read(rel).count("Made by <a href"), 1, rel)
 
     def test_asset_sizes(self):
